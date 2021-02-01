@@ -21,8 +21,8 @@ The app requires the following environment variables to be set.
 
 | Parameter | Default | Description |
 | ----- | ----- | ------ |
-| TELEBOTNOTIFIER_DEBUG | `0` | Set to `1` to enable debugging.<br>Any other value causes the script to exit. |
-| TELEBOTNOTIFIER_USE_HTTP | `0` | Set to `1` to prefer `http` over `https` when making requests to `api.telegram.org`.<br>Any other value causes the script to exit. |
+| TELEBOTNOTIFIER_DEBUG | `0` | Set to `1` to enable debugging. Any other value will be ignored. |
+| TELEBOTNOTIFIER_USE_HTTP | `0` | Set to `1` to prefer `http` over `https` when making requests to `api.telegram.org`. Any other value will be ignored. |
 
 ## Setup
 
