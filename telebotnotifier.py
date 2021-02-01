@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse, RedirectResponse
 import yaml
 import requests
 import logging
-import os
+from os import getenv
 import sys
 
 app = FastAPI()
@@ -17,7 +17,7 @@ TELEBOTNOTIFIER_DEBUG = os.environ.get('TELEBOTNOTIFIER_DEBUG', "0")
 TELEBOTNOTIFIER_USE_HTTP = os.environ.get('TELEBOTNOTIFIER_USE_HTTP', False)
 
 # Set the base URL for Telegram API
-if os.environ.get('TELEBOTNOTIFIER_USE_HTTP', False) == "1":
+    if getenv('TELEBOTNOTIFIER_USE_HTTP', False) == "1":
     baseurl_protocol = 'http'
 else:
     baseurl_protocol = 'https'
@@ -27,7 +27,7 @@ baseurl = f'{baseurl_protocol}://api.telegram.org'
 # Use the uvicorn logger
 logger = logging.getLogger("uvicorn")
 
-if os.environ.get('TELEBOTNOTIFIER_DEBUG', "0") == "1":
+    if getenv('TELEBOTNOTIFIER_DEBUG', "0") == "1":
     logger.setLevel(logging.DEBUG)
 else:
     logger.setLevel(logging.INFO)
@@ -40,7 +40,7 @@ async def root():
 
 @app.get("/info")
 async def info():
-    return JSONResponse(content={'token': os.environ['TELEBOTNOTIFIER_BOT_TOKEN'], 'chatID': os.environ['TELEBOTNOTIFIER_CHAT_ID']}, status_code=status.HTTP_200_OK)
+    return JSONResponse(content={'token': getenv('TELEBOTNOTIFIER_BOT_TOKEN',"not set"), 'chatID': getenv('TELEBOTNOTIFIER_CHAT_ID',"not set")}, status_code=status.HTTP_200_OK)
 
 
 @app.get("/msg")
@@ -52,7 +52,7 @@ async def msg(msg = None):
 
     logger.debug(f'Received request to send message "{msg}"')
     
-    msg_url = f"{baseurl}/bot{os.environ.get('TELEBOTNOTIFIER_BOT_TOKEN')}/sendMessage?chat_id={os.environ.get('TELEBOTNOTIFIER_CHAT_ID')}&text={msg}"
+    msg_url = f"{baseurl}/bot{getenv('TELEBOTNOTIFIER_BOT_TOKEN')}/sendMessage?chat_id={getenv('TELEBOTNOTIFIER_CHAT_ID')}&text={msg}"
     logger.debug(f"Making request to {msg_url}")
     response = requests.get(msg_url)
 
@@ -78,7 +78,7 @@ async def healthcheck():
 
     # Check if the TELEBOTNOTIFIER_BOT_TOKEN is set.
     # If not, exit immediately
-    if not os.environ.get('TELEBOTNOTIFIER_BOT_TOKEN',None):
+    if not getenv('TELEBOTNOTIFIER_BOT_TOKEN',None):
         health['token'] = 'not set'
         logger.error('TELEBOTNOTIFIER_BOT_TOKEN environment vairable not set.')
         status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
@@ -89,7 +89,7 @@ async def healthcheck():
     #################
 
     # Check the Telegram API to confirm the bot is online
-    health_bot_url = f"{baseurl}/bot{os.environ.get('TELEBOTNOTIFIER_BOT_TOKEN')}/getMe"
+    health_bot_url = f"{baseurl}/bot{getenv('TELEBOTNOTIFIER_BOT_TOKEN')}/getMe"
     logger.debug(f'Making request to {health_bot_url}')
     response = requests.get(health_bot_url)
 
@@ -127,7 +127,7 @@ async def healthcheck():
     # Check the chat #
     ##################
 
-    health_chat_url = f"{baseurl}/bot{os.environ.get('TELEBOTNOTIFIER_BOT_TOKEN')}/getChat?chat_id={os.environ.get('TELEBOTNOTIFIER_CHAT_ID')}"
+    health_chat_url = f"{baseurl}/bot{getenv('TELEBOTNOTIFIER_BOT_TOKEN')}/getChat?chat_id={getenv('TELEBOTNOTIFIER_CHAT_ID')}"
     logger.debug(f"Making request to {health_chat_url}")
     response = requests.get(health_chat_url)
 
