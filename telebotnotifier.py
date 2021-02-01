@@ -15,21 +15,21 @@ async def startup():
     global logger
     global baseurl
 
-# Set the base URL for Telegram API
+    # Set the base URL for Telegram API
     if getenv('TELEBOTNOTIFIER_USE_HTTP', False) == "1":
-    baseurl_protocol = 'http'
-else:
-    baseurl_protocol = 'https'
+        baseurl_protocol = 'http'
+    else:
+        baseurl_protocol = 'https'
 
-baseurl = f'{baseurl_protocol}://api.telegram.org'
+    baseurl = f'{baseurl_protocol}://api.telegram.org'
 
-# Use the uvicorn logger
-logger = logging.getLogger("uvicorn")
+    # Use the uvicorn logger
+    logger = logging.getLogger("uvicorn")
 
     if getenv('TELEBOTNOTIFIER_DEBUG', "0") == "1":
-    logger.setLevel(logging.DEBUG)
-else:
-    logger.setLevel(logging.INFO)
+        logger.setLevel(logging.DEBUG)
+    else:
+        logger.setLevel(logging.INFO)
 
 
 @app.get("/")
