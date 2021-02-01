@@ -1,6 +1,6 @@
-# telebotnotifier
+# TeleBotNotifier
 
-Telebotnotifier is a Python tool written using FastAPI to interact with a telegram bot.
+TeleBotNotifier is a Python tool written using FastAPI to interact with a telegram bot.
 
 This was created out of the desire for a simple self-hosted notification system which could send a message just by sending a single http request.
 
@@ -98,5 +98,6 @@ curl -G -X GET http://localhost:8000/msg --data-urlencode "msg=$(cat docker-comp
 The service has a healthcheck function as the API was designed to be run in a container.
 
 The healthcheck routine:
+
 * Checks that the bot token is valid.
 * Checks that the chat ID is valid for that bot.
