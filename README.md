@@ -30,7 +30,7 @@ The app requires the following environment variables to be set.
 
 To use this service, you first need to create a telegram bot. Check the [Telegram documentation](https://core.telegram.org/bots#6-botfather) for more details.
 
-Once the bot is set up and you have your bot's http token, send a message to the bot usign the Telegram mobile/desktop app.
+Once the bot is set up and you have your bot's http token, send a message to the bot using the Telegram mobile/desktop app.
 
 Then make a request to `https://api.telegram.org/bot<BOT_TOKEN>/getUpdates` to get your chat ID.
 
