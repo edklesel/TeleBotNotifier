@@ -8,28 +8,28 @@ import sys
 
 app = FastAPI()
 
+# Set global variables
+global logger
+global baseurl
+
+# Use the uvicorn logger
+logger = logging.getLogger("uvicorn")
+logger.setLevel(logging.INFO)
+
+# Define the Telegram API URL
+baseurl = f'https://api.telegram.org'
+
 @app.on_event('startup')
 async def startup():
 
-    # Set global variables
-    global logger
-    global baseurl
 
     # Set the base URL for Telegram API
     if getenv('TELEBOTNOTIFIER_USE_HTTP', False) == "1":
-        baseurl_protocol = 'http'
-    else:
-        baseurl_protocol = 'https'
+        baseurl = f'http://api.telegram.org'
 
-    baseurl = f'{baseurl_protocol}://api.telegram.org'
-
-    # Use the uvicorn logger
-    logger = logging.getLogger("uvicorn")
-
+    # Set the logging level
     if getenv('TELEBOTNOTIFIER_DEBUG', "0") == "1":
         logger.setLevel(logging.DEBUG)
-    else:
-        logger.setLevel(logging.INFO)
 
 
 @app.get("/")
