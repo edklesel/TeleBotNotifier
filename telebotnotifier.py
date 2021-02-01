@@ -8,13 +8,12 @@ import sys
 
 app = FastAPI()
 
-# Get mandatory environment variables
-TELEBOTNOTIFIER_BOT_TOKEN = os.environ.get('TELEBOTNOTIFIER_BOT_TOKEN', None)
-TELEBOTNOTIFIER_CHAT_ID = os.environ.get('TELEBOTNOTIFIER_CHAT_ID', None)
+@app.on_event('startup')
+async def startup():
 
-# Get optional environment variables
-TELEBOTNOTIFIER_DEBUG = os.environ.get('TELEBOTNOTIFIER_DEBUG', "0")
-TELEBOTNOTIFIER_USE_HTTP = os.environ.get('TELEBOTNOTIFIER_USE_HTTP', False)
+    # Set global variables
+    global logger
+    global baseurl
 
 # Set the base URL for Telegram API
     if getenv('TELEBOTNOTIFIER_USE_HTTP', False) == "1":
