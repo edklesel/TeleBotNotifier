@@ -47,7 +47,7 @@ async def msg(msg = None):
 
     if not msg:
         logger.error('Empty message provided.')
-        return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST)
+        return JSONResponse(content={'ok': False, 'error': 'No message provided.'}, status_code=status.HTTP_400_BAD_REQUEST)
 
     logger.debug(f'Received request to send message "{msg}"')
     
@@ -65,7 +65,7 @@ async def msg(msg = None):
     else:
         logger.error('Error delivering message.')
         logger.exception(response_data)
-        return JSONResponse(content={'ok': False}, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return JSONResponse(content={'ok': False, 'response': response_data}, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @app.get("/healthcheck")
